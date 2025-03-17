@@ -1,13 +1,12 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from 'cors'
+import { createServer } from  "http";
 
 const app = express();
-app.use(cors()); // Permite peticiones desde el frontend
+const server = createServer(app);
 
-app.get("/", (req, res) => {
-    res.send("Hola vue" );
-});
+import syncDB from "./basededades/creacion_tablas.js";
 
-app.listen(3000, () => {
-    console.log("Servidor corriendo en http://localhost:3000");
-});
+(async () => {
+    await syncDB();
+})();
