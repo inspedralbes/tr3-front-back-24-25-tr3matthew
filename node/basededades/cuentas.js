@@ -2,6 +2,11 @@ import { DataTypes } from "sequelize";
 import sequelize from "./conexion.js";
 
 const Cuentas = sequelize.define("Cuentas", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     username : {
         type: DataTypes.STRING,
         allowNull: false,
@@ -11,6 +16,9 @@ const Cuentas = sequelize.define("Cuentas", {
         type: DataTypes.STRING,
         allowNull: false
     }
-})
+},
+{
+    timestamps: true
+});
 
 export default Cuentas;

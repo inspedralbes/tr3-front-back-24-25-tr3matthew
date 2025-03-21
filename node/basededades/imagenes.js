@@ -14,7 +14,18 @@ const Imagenes = sequelize.define("Imagenes", {
     fecha : {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    cuentaID: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Cuentas,
+            key: "id"
+        }
     }
+},
+{
+    timestamps: true
 });
 
 Cuentas.hasMany(Imagenes, { foreignKey: "cuentaID"});
