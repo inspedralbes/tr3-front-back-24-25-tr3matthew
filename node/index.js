@@ -41,8 +41,15 @@ app.get("/Fcuentas", async (req, res) => {
     res.json(cuentas);
 })
 
-app.get("/Fcuentas/:id", async (req, res) => {
-    const cuenta = await Cuentas.findByPk(req.params.id);
+app.get("/FcuentasU", async (req, res) => {
+    const { username, password } = req.query;
+    const cuenta = await Cuentas.findOne({
+        where: {
+            username,
+            password
+        }
+    });
+    console.log("Cuenta encontrada: ", cuenta);
     if (!cuenta) {
         res.status(400).json({error: "Cuenta no encontrada."});
     }
@@ -51,14 +58,14 @@ app.get("/Fcuentas/:id", async (req, res) => {
     }
 });
 
-app.put("/cuentas/:id", async (req, res) => {
-    const { id, username, password } = req.body;
-    const cuentamodif = await Cuentas.findByPk(req.params.id);
+app.put("/cuentas/:username", async (req, res) => {
+    const { username, password } = req.body;
+    const cuentamodif = await Cuentas.findByPk(req.params.username);
     if (!cuentamodif) {
         res.status(400).json({error: "Cuenta no encontrada."});
     }
     else {
-        cuentamodif.id = id;
+        //cuentamodif.id = id;
         cuentamodif.username =  username;
         cuentamodif.password = password;
         await cuentamodif.save();
@@ -66,9 +73,9 @@ app.put("/cuentas/:id", async (req, res) => {
     }
 });
 
-app.delete("/cuentas/:id", async (req, res) => {
+app.delete("/cuentas/:username", async (req, res) => {
     try {
-        const cuentaelim = await Cuentas.findByPk(req.params.id);
+        const cuentaelim = await Cuentas.findByPk(req.params.username);
         await cuentaelim.destroy();
         res.json({message: "Cuenta eliminada con exito. "})
     }

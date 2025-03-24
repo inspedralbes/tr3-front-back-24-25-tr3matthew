@@ -1,4 +1,4 @@
-const URL = import.meta.env.NODE_URL
+const URL = import.meta.env.VITE_API_URL_NODE
 
 export async function getCuentas() {
     try {
@@ -18,10 +18,11 @@ export async function getCuentas() {
     }
 }
 
-export async function getUCuenta(id) {
+export async function getUCuenta(username, password) {
     try {
-        const Ucuenta = await fetch(`${URL}/Fcuentas/${id}`);
-        if(!Ucuenta.ok) {
+        const Ucuenta = await fetch(`${URL}/FcuentasU?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+            console.log("Respuesta del servidor:", Ucuenta);
+            if(!Ucuenta.ok) {
             throw new Error(`Error al obtener la cuenta: ${Ucuenta.status}`);
         }
         else {
@@ -63,15 +64,14 @@ export async function postCuenta(username, password) {
     }
 }
 
-export async function updateCuenta(id, username, password) {
+export async function updateCuenta(username, password) {
     try {
-        const cuentaM = await fetch(`${URL}/cuentas/${id}`,{
+        const cuentaM = await fetch(`${URL}/cuentas/${username}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: id, 
                 username: username, 
                 password: password
             })
@@ -91,9 +91,9 @@ export async function updateCuenta(id, username, password) {
     }
 }
 
-export async function deleteCuenta(id) {
+export async function deleteCuenta(username) {
     try {
-        const cuentaE = await fetch(`${URL}/cuentas/${id}`, {
+        const cuentaE = await fetch(`${URL}/cuentas/${username}`, {
             method: 'DELETE',
         });
         if(!cuentaE.ok) {
@@ -102,7 +102,7 @@ export async function deleteCuenta(id) {
         }
         else {
             const cuentaElim = await cuentaE.json();
-            return cuentaE;
+            return cuentaElim;
         }
     }
     catch(error) {

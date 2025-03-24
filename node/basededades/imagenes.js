@@ -16,11 +16,11 @@ const Imagenes = sequelize.define("Imagenes", {
         defaultValue: DataTypes.NOW
     },
     cuentaID: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         references: {
             model: Cuentas,
-            key: "id"
+            key: "username"
         }
     }
 },

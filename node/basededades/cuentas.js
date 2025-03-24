@@ -2,13 +2,14 @@ import { DataTypes } from "sequelize";
 import sequelize from "./conexion.js";
 
 const Cuentas = sequelize.define("Cuentas", {
-    id: {
+    /*id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    },
+    },*/
     username : {
         type: DataTypes.STRING,
+        primaryKey: true,
         allowNull: false,
         unique: true
     },
