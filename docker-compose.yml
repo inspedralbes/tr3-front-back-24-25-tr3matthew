@@ -10,11 +10,11 @@ services:
     volumes:
       - ./mongo_data:/data/db
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      test: [ "CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })" ]
       interval: 5s
       timeout: 3s
       retries: 5
-  
+
   mysql:
     image: mysql:8.0
     container_name: mysql
@@ -26,7 +26,7 @@ services:
     volumes:
       - ./mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -38,9 +38,8 @@ services:
     ports:
       - "8080:8080"
 
-
   node:
-    build: 
+    build:
       context: ./node
       dockerfile: Dockerfile.node
     container_name: node
@@ -53,24 +52,32 @@ services:
       - ./node:/app
       - /app/node_modules
     depends_on:
-        mysql:
-          condition: service_healthy
+      mysql:
+        condition: service_healthy
         #mongodb:
-          #condition: service_healthy
+        #condition: service_healthy
     environment:
       - NODE_ENV=${NODE_ENV}
 
   vuetify:
-    build: 
+    build:
       context: ./vuetify
       dockerfile: Dockerfile.vuetify
     container_name: vuetify
     restart: always
     ports:
-        - "3001:3001"
+      - "3001:3001"
     volumes:
       - ./vuetify:/app
       - /app/node_modules
     depends_on:
       - node
-
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_data:/data

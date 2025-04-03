@@ -2,18 +2,21 @@
 import { getUCuenta } from '@/services/communicationManager';
 import { ref } from 'vue';
 import { useRouter } from "vue-router";
+import { useUserStore } from '@/stores/cuentaID';
 
 const form = ref();
 const usuario = ref('');
 const contraseña = ref('');
 const mensajeError = ref("");
 const router = useRouter();
+const userStore = useUserStore();
 
 async function getUnicaCuenta() {
     try {
         const { valid } = await form.value.validate()
         const Ucuenta = await getUCuenta(usuario.value, contraseña.value);
         if (Ucuenta && valid) {
+            userStore.setUsername(usuario.value);
             router.push("/subir_imagen");
             return alert("Cuenta valida!!");
         }
@@ -31,14 +34,6 @@ const vUsuario = ref([
 const vContraseña = ref([
     c => !!c || 'Contraseña vacía'
 ])
-
-async function validate() {
-    const { valid } = await form.value.validate()
-
-    if(valid) {
-        alert('Cuenta aceptada!');
-    }
-}
 </script>
 
 <template>
@@ -50,6 +45,7 @@ async function validate() {
         </v-text-field>
         <v-text-field
         v-model="contraseña"
+        type="password"
         :rules="vContraseña"
         label =  "Contraseña">
         </v-text-field>

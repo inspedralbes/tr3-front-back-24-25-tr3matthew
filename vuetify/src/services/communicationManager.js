@@ -7,7 +7,7 @@ export async function getCuentas() {
             throw new Error(`Error al obtener las cuentas: ${cuenta.status}`);
         }
         else {
-            const resposte = await preguntas.json();
+            const resposte = await cuenta.json();
             console.log(resposte);
             return resposte;
         }
@@ -147,10 +147,10 @@ export async function getImagenU(CuentaID) {
     }
 }
 
-export async function postImagenU(cuentaID) {
+export async function postImagenU(cuentaID, imagen) {
     try {
         const formData = new FormData();
-        formData.append("imagen", file);
+        formData.append("imagen", imagen);
 
         const NImagenU = await fetch (`${URL}/imagenes/${cuentaID}`, {
             method: 'POST',
@@ -167,7 +167,7 @@ export async function postImagenU(cuentaID) {
     }
     catch(error) {
         console.error("Error en Communication Manager PImagenU: ", error);
-        throw new error;
+        throw error;
     }
 }
 

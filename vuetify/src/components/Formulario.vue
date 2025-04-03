@@ -1,4 +1,4 @@
-<!--<script setup>
+<script setup>
 import { ref } from "vue";
 
 const cuentaID = ref("");
@@ -54,9 +54,9 @@ const subirImagen = async () => {
       </v-alert>
     </v-card>
   </v-container>
-</template>-->
+</template>
 
-<script setup>
+<!--<script setup>
   import { ref } from 'vue'
 
   const form = ref()
@@ -141,4 +141,4 @@ const subirImagen = async () => {
       </div>
     </v-form>
   </v-sheet>
-</template>
+</template>-->
