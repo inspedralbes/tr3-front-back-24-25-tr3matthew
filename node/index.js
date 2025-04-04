@@ -210,6 +210,16 @@ app.delete("/imagenes/:id", async (req, res) => {
             }
         });
         await imagen.destroy();
+        const mensajeEliminar = JSON.stringify({ 
+            type: "imagenEliminada", 
+            data: req.params.id 
+        });
+
+        ws.clients.forEach(client => {
+            if (client.readyState === 1) {
+                client.send(mensajeEliminar);
+            }
+        });
         res.json({ message: "Imagen eliminada." });
     }
 });

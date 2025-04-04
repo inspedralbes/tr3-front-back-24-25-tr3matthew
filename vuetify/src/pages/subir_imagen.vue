@@ -1,12 +1,12 @@
 <script setup>
 import { getImagen, postImagenU } from '@/services/communicationManager';
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter } from "vue-router";
+//import { useRouter } from "vue-router";
 import { useUserStore } from '@/stores/cuentaID';
-import GameParamsController from '@/components/GameParamsController.vue';
-
+//import GameParamsController from '@/components/GameParamsController.vue';
+import { deleteImagen } from '@/services/communicationManager';
 const form = ref();
-const router = useRouter();
+//const router = useRouter();
 const userStore = useUserStore();
 const imagen = ref(null);
 const username = ref(userStore.username);
@@ -28,6 +28,20 @@ onUnmounted(() => {
 const Vimagen = ref([
     i => !!i || 'Imagen vacía'
 ])
+
+async function eliminarImagen(id) {
+    try{
+        const DImagen = await deleteImagen(id);
+        if (DImagen) {
+            console.log("Portada borrada: ", DImagen);
+            obtenerImagenes();
+        }
+    }
+    catch (error) {
+        console.error("Error al eliminar la imagen", error);
+    }
+    
+}
 async function publicarImagen() {
     try {
         const { valid } = await form.value.validate();
@@ -74,6 +88,12 @@ function conectarWebSocket() {
             obtenerImagenes();
             console.log("Imagen subida:", mensaje.data);
         }
+        if (mensaje.type === "imagenEliminada") {
+        const idEliminado = mensaje.data;
+        obtenerImagenes();
+        portadas.value = portadas.value.filter(portada => portada.id != idEliminado);
+        console.log("Imagen eliminada:", idEliminado);
+        }
     };
 
     ws.value.onclose = () => {
@@ -99,6 +119,7 @@ function conectarWebSocket() {
     <div id="portadas">
         <div v-for="portada in portadas" :key="portada.id">
             <v-img v-if="portada.url" :src="portada.url" :alt="portada.nombre" />
+            <v-btn @click="eliminarImagen(portada.id)">Borrar Imagen</v-btn>
         </div>
     </div>
 </template>

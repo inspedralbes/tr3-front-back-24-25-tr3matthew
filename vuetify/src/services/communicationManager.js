@@ -173,7 +173,7 @@ export async function postImagenU(cuentaID, imagen) {
 
 export async function deleteImagen(id) {
     try {
-        const DImagenN = await fetch(`${URL}/${id}`, {
+        const DImagenN = await fetch(`${URL}/imagenes/${id}`, {
             method: 'DELETE',
         });
         if(!DImagenN.ok) {
