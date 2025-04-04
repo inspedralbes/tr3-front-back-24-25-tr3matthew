@@ -3,6 +3,7 @@ import { getImagen, postImagenU } from '@/services/communicationManager';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from "vue-router";
 import { useUserStore } from '@/stores/cuentaID';
+import GameParamsController from '@/components/GameParamsController.vue';
 
 const form = ref();
 const router = useRouter();
@@ -94,7 +95,7 @@ function conectarWebSocket() {
             Subir Portada
         </v-btn>
     </v-form>
-
+    <!--<GameParamsController />-->
     <div id="portadas">
         <div v-for="portada in portadas" :key="portada.id">
             <v-img v-if="portada.url" :src="portada.url" :alt="portada.nombre" />
