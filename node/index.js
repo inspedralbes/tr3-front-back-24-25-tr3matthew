@@ -273,7 +273,7 @@ ws.on("connection", (ws) => {
         data: gameParams
       }));
     
-      // Escuchar mensajes del cliente
+      /*// Escuchar mensajes del cliente
       ws.on('message', (message) => {
         const { type, data } = JSON.parse(message);
         
@@ -289,7 +289,7 @@ ws.on("connection", (ws) => {
             }
           });
         }
-      });
+      });*/
 });
 
 const syncDB = async () => {

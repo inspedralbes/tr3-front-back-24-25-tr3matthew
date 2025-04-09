@@ -68,7 +68,7 @@ const vContraseña = ref([
 
 <style scoped>
 .login-background {
-  background-color: #E6E6FA; /* Morado pastel */
+  background-color: #E6E6FA;
   height: 100vh;
   width: 100%;
 }

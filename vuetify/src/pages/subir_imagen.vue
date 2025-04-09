@@ -98,7 +98,7 @@ function conectarWebSocket() {
 
     ws.value.onclose = () => {
         console.warn("WebSocket desconectado. Intentando reconectar...");
-        setTimeout(conectarWebSocket, 3000); // 🔄 Reintentar conexión en 3s
+        setTimeout(conectarWebSocket, 3000);
     };
 
     ws.value.onerror = (error) => {
